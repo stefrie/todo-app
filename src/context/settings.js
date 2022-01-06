@@ -1,24 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 export const SettingsContext = React.createContext();
 
-function SettingsProvider({ children }) {
+function Settings(props) {
+	let [itemPref, setItemPref] = useState(5);
+	let [dispComp, setDisComp] = useState(true);
 
-	const [pagination, setPagination] = useState(4);
-	const [sort, setSort] = useState('Assigned To');
-	const [hide, setHide] = useState(false);
+	useEffect(() => {
+		let item = JSON.parse(window.localStorage.getItem('settings')) || {};
+		if (Object.keys(item).length === 0) {
+			console.log('Not Items');
+		} else {
+			console.log('This', item);
+			setItemPref(item.itemPref);
+			setDisComp(item.dispComp);
+		}
+	}, []);
 
-	const values = {
-		pagination: 4,
-		sort: 'Assigned To',
-		hide: false
-	}
+	useEffect(() => {
+		window.localStorage.setItem(
+			'settings',
+			JSON.stringify({ itemPref, dispComp })
+		);
+	}, [itemPref, dispComp]);
+
+	let val = {
+		dispComp,
+		setDisComp: function () {
+			setDisComp(!dispComp);
+		},
+		itemPref,
+		setItemPref: function (count) {
+			setItemPref(count);
+		},
+		sort: '',
+	};
 
 	return (
-		<SettingsContext.Provider value={values}>
-			{children}
+		<SettingsContext.Provider value={val}>
+			{props.children}
 		</SettingsContext.Provider>
-	)
+	);
 }
 
-export default SettingsProvider;
+export default Settings;

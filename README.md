@@ -77,3 +77,7 @@ In Phase 1, we're going to perform some refactoring of the To Do application as 
 ### Assignment Submission Instructions
 
 Refer to the the [Submitting React Apps Lab Submission Instructions](../../../reference/submission-instructions/labs/react-apps.md) for the complete lab submission process and expectations
+
+### Props
+
+Thanks to Tray for helping me out with one!
